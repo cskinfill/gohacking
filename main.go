@@ -184,7 +184,12 @@ func (r *DbRepo) Service(ctx context.Context, id int) (*Service, error) {
 	var err error
 	if err = row.Scan(&service.ID, &service.Name, &service.Description, &service.Versions); err == sql.ErrNoRows {
 		log.Printf("Id not found")
-		return &Service{}, err
+		return nil, nil
+	}
+
+	if err != nil {
+		log.Printf("Something bad - %s", err)
+		return nil, err
 	}
 	return &service, nil
 }
