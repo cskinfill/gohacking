@@ -83,20 +83,64 @@ func main() {
 		otelShutdown(context.Background())
 	}()
 
-	repo, err := NewDbRepo("services.db")
+	db, err := otelsql.Open("sqlite3", "services.db")
+	if err != nil {
+		log.Fatalf("Failed to connect to db %s\n", err)
+	}
+
+	repo, err := NewDbRepo(db)
 	if err != nil {
 		log.Panic(err)
 	}
 	handler := NewServiceHandler(repo)
 
+	authMiddleware, err := NewAuthMiddleware(db)
+
+	if err != nil {
+		log.Panic("Badness %s", err)
+	}
+
 	router := mux.NewRouter()
 	router.Use(otelmux.Middleware("services"))
+	router.Use(authMiddleware.Middleware)
 	router.HandleFunc("/services", handler.GetServices).Methods("GET")
 	router.HandleFunc("/service/{id}", handler.GetService).Methods("GET")
 	router.Handle("/metrics", promhttp.Handler())
 
 	fmt.Println("Starting service on port 8080")
 	http.ListenAndServe(":8080", router)
+}
+
+type AuthenticationMiddleware struct {
+	db *sql.DB
+}
+
+func NewAuthMiddleware(db *sql.DB) (*AuthenticationMiddleware, error) {
+	return &AuthenticationMiddleware{
+		db: db,
+	}, nil
+}
+
+func (amw *AuthenticationMiddleware) Middleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		_, span := tracer.Start(r.Context(), "Service")
+		defer span.End()
+		account, token, _ := r.BasicAuth()
+		var found bool
+		if err := amw.db.QueryRowContext(r.Context(), "SELECT (count(1)==1) FROM auth WHERE account = ? AND token = ?", account, token).Scan(&found); err != nil {
+			if err == sql.ErrNoRows {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+			}
+		}
+		if found {
+			log.Printf("Authenticated account %s\n", account)
+			// Pass down the request to the next middleware (or final handler)
+			next.ServeHTTP(w, r)
+		} else {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+		}
+	})
 }
 
 type InMemoryRepo struct {
@@ -143,11 +187,8 @@ type DbRepo struct {
 	db *sql.DB
 }
 
-func NewDbRepo(database string) (*DbRepo, error) {
-	db, err := otelsql.Open("sqlite3", database)
-	if err != nil {
-		return nil, err
-	}
+func NewDbRepo(db *sql.DB) (*DbRepo, error) {
+	// db, err := otelsql.Open("sqlite3", database)
 	return &DbRepo{
 		db: db,
 	}, nil
