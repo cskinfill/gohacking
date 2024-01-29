@@ -97,7 +97,7 @@ func main() {
 	authMiddleware, err := NewAuthMiddleware(db)
 
 	if err != nil {
-		log.Panic("Badness %s", err)
+		log.Panicf("Badness %s", err)
 	}
 
 	router := mux.NewRouter()
