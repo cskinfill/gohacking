@@ -143,46 +143,6 @@ func (amw *AuthenticationMiddleware) Middleware(next http.Handler) http.Handler 
 	})
 }
 
-type InMemoryRepo struct {
-	_services []Service
-}
-
-func NewInMemoryRepo() (ServiceRepository, error) {
-	services := []Service{}
-
-	service := Service{ID: 1, Name: "Locate Us", Description: "Awesomeness is HERE!", Versions: 3}
-	services = append(services, service)
-
-	service = Service{ID: 2, Name: "Contact Us", Description: "How can I find you?!", Versions: 2}
-	services = append(services, service)
-
-	return &InMemoryRepo{_services: services}, nil
-}
-
-func (r *InMemoryRepo) Services(ctx context.Context) ([]Service, error) {
-	_, span := tracer.Start(ctx, "Services")
-	defer span.End()
-	return r._services, nil
-}
-
-func (r *InMemoryRepo) Service(ctx context.Context, id int) (*Service, error) {
-	_, span := tracer.Start(ctx, "Service")
-	defer span.End()
-
-	services, err := r.Services(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	for _, service := range services {
-		if service.ID == id {
-			return &service, nil
-		}
-	}
-
-	return nil, nil
-}
-
 type DbRepo struct {
 	db *sql.DB
 }
