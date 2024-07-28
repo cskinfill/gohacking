@@ -4,7 +4,7 @@ go 1.21.6
 
 require (
 	github.com/gorilla/mux v1.8.1
-	github.com/mattn/go-sqlite3 v1.14.20
+	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/prometheus/client_golang v1.18.0
 	github.com/uptrace/opentelemetry-go-extra/otelsql v0.2.3
 	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.47.0
