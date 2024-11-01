@@ -41,7 +41,7 @@ func main() {
 	}
 	handler := NewServiceHandler(repo)
 
-	authMiddleware, err := NewAuthMiddleware(db)
+	// authMiddleware, err := NewAuthMiddleware(db)
 
 	if err != nil {
 		log.Panicf("Badness %s", err)
@@ -49,7 +49,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.Use(otelmux.Middleware("services"))
-	router.Use(authMiddleware.Middleware)
+	// router.Use(authMiddleware.Middleware)
 	router.Use(prometheusMiddleware)
 	router.HandleFunc("/services", handler.GetServices).Methods("GET")
 	router.HandleFunc("/service/{id}", handler.GetService).Methods("GET")
