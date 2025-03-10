@@ -41,8 +41,8 @@ github.com/uptrace/opentelemetry-go-extra/otelsql v0.2.3 h1:LNi0Qa7869/loPjz2kmM
 github.com/uptrace/opentelemetry-go-extra/otelsql v0.2.3/go.mod h1:jyigonKik3C5V895QNiAGpKYKEvFuqjw9qAEZks1mUg=
 go.opentelemetry.io/auto/sdk v1.1.0 h1:cH53jehLUN6UFLY71z+NDOiNJqDdPRaXzTel0sJySYA=
 go.opentelemetry.io/auto/sdk v1.1.0/go.mod h1:3wSPjt5PWp2RhlCcmmOial7AvC4DQqZb7a7wCow3W8A=
-go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.57.0 h1:ydMxn2B3ZKzDXmjgE/tBtq7RsArxmikZUlRWComOPFs=
-go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.57.0/go.mod h1:rD9Z+09JseOeFdSJUrtnA2hO4XBY3lf1Tj0tPqf+LEM=
+go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.60.0 h1:iLuogsToNW6QaOYPcbIwhkdRTkc0gvXzuiajObXc6WY=
+go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.60.0/go.mod h1:XNSNQBtSOifFUw0aQUyBN0Ff+0NddEnbSATy2QlFgm8=
 go.opentelemetry.io/otel v1.35.0 h1:xKWKPxrxB6OtMCbmMY021CqC45J+3Onta9MqjhnusiQ=
 go.opentelemetry.io/otel v1.35.0/go.mod h1:UEqy8Zp11hpkUrL73gSlELM0DupHoiq72dR+Zqel/+Y=
 go.opentelemetry.io/otel/exporters/prometheus v0.57.0 h1:AHh/lAP1BHrY5gBwk8ncc25FXWm/gmmY3BX258z5nuk=
