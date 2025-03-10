@@ -1,7 +1,8 @@
 module gohacking
 
-go 1.22
-toolchain go1.23.0
+go 1.22.0
+
+toolchain go1.24.1
 
 require (
 	github.com/gorilla/mux v1.8.1
