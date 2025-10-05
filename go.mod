@@ -9,7 +9,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.28
 	github.com/prometheus/client_golang v1.23.0
 	github.com/uptrace/opentelemetry-go-extra/otelsql v0.2.3
-	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.60.0
+	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.63.0
 	go.opentelemetry.io/otel v1.38.0
 	go.opentelemetry.io/otel/exporters/prometheus v0.60.0
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.38.0
